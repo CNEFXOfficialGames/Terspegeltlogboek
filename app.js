@@ -1,10 +1,10 @@
 console.log("🌙 TerSpegelt App gestart");
 
-// 🌍 Firebase references (from window)
+// 🌍 Firebase
 const db = window.db;
-const { collection, addDoc, getDocs } = window.firebaseModules;
+const { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } = window.firebaseModules;
 
-// 📅 UI elements
+// 📅 UI
 const feed = document.getElementById("feed");
 const popup = document.getElementById("postPopup");
 
@@ -21,7 +21,7 @@ closeBtn.addEventListener("click", () => {
     popup.style.display = "none";
 });
 
-// ➕ POST NAAR FIREBASE
+// ➕ CREATE POST (FIREBASE)
 placeBtn.addEventListener("click", async () => {
 
     const naam = document.getElementById("naam").value;
@@ -51,19 +51,38 @@ placeBtn.addEventListener("click", async () => {
         document.getElementById("tijd").value = "";
         document.getElementById("beschrijving").value = "";
 
-        loadPosts(); // refresh timeline
+        loadPosts();
     } catch (e) {
         console.error("Fout bij opslaan:", e);
     }
 });
 
-// ⏰ time sorter (09:00 → number)
+// ⏰ time → number
 function timeToNumber(time) {
     const [h, m] = time.split(":");
     return parseInt(h) * 60 + parseInt(m);
 }
 
-// 📥 LOAD POSTS FROM FIREBASE
+// 🗑️ DELETE POST
+async function deletePost(id) {
+    await deleteDoc(doc(db, "posts", id));
+    loadPosts();
+}
+
+// ✏️ EDIT POST
+async function editPost(id, oldText) {
+    const newText = prompt("Edit post:", oldText);
+
+    if (!newText) return;
+
+    await updateDoc(doc(db, "posts", id), {
+        beschrijving: newText
+    });
+
+    loadPosts();
+}
+
+// 📥 LOAD + RENDER TIMELINE
 async function loadPosts() {
 
     feed.innerHTML = "";
@@ -72,8 +91,11 @@ async function loadPosts() {
 
     let posts = [];
 
-    snapshot.forEach(doc => {
-        posts.push(doc.data());
+    snapshot.forEach(docSnap => {
+        posts.push({
+            id: docSnap.id,
+            ...docSnap.data()
+        });
     });
 
     // 📅 group by day
@@ -110,10 +132,15 @@ async function loadPosts() {
                     postDiv.innerHTML = `
                         <div class="time-label">${post.tijd}</div>
                         <div class="naam">${post.naam}</div>
+
                         <div class="tag ${post.categorie}">
                             ${post.categorie}
                         </div>
+
                         <p>${post.beschrijving}</p>
+
+                        <button onclick="editPost('${post.id}', \`${post.beschrijving}\`)">✏️</button>
+                        <button onclick="deletePost('${post.id}')">🗑️</button>
                     `;
 
                     dayDiv.appendChild(postDiv);
@@ -123,5 +150,5 @@ async function loadPosts() {
         });
 }
 
-// 🚀 start app
+// 🌙 START APP
 loadPosts();
