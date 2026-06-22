@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>My TerSpegelt Diary</title>
+  <title>Mijn TerSpegelt Dagboek</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -51,7 +52,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .date {
+    .datum {
       font-size: 12px;
       color: gray;
       margin-bottom: 5px;
@@ -62,21 +63,22 @@
 <body>
 
 <header>
-  <h1>🌊 My TerSpegelt Diary</h1>
-  <p>Write what you did every day</p>
+  <h1>🌊 Mijn TerSpegelt Dagboek</h1>
+  <p>Schrijf elke dag wat je hebt gedaan</p>
 </header>
 
 <div class="container">
 
-  <textarea id="text" placeholder="What did you do today?"></textarea>
-  <button onclick="addEntry()">Add Entry</button>
+  <textarea id="invoer" placeholder="Wat heb je vandaag gedaan?"></textarea>
+  <button onclick="voegToe()">Voeg toe</button>
 
   <div id="entries"></div>
 
 </div>
 
 <script>
-  let entries = JSON.parse(localStorage.getItem("diary") || "[]");
+  // Laad opgeslagen entries uit browser
+  let entries = JSON.parse(localStorage.getItem("dagboek") || "[]");
 
   function render() {
     const container = document.getElementById("entries");
@@ -85,27 +87,29 @@
     entries.slice().reverse().forEach(e => {
       const div = document.createElement("div");
       div.className = "entry";
+
       div.innerHTML = `
-        <div class="date">${e.date}</div>
-        <div>${e.text}</div>
+        <div class="datum">${e.datum}</div>
+        <div>${e.tekst}</div>
       `;
+
       container.appendChild(div);
     });
   }
 
-  function addEntry() {
-    const text = document.getElementById("text").value;
-    if (!text) return;
+  function voegToe() {
+    const tekst = document.getElementById("invoer").value;
+    if (!tekst) return;
 
     const entry = {
-      text,
-      date: new Date().toLocaleString()
+      tekst: tekst,
+      datum: new Date().toLocaleString("nl-NL")
     };
 
     entries.push(entry);
-    localStorage.setItem("diary", JSON.stringify(entries));
+    localStorage.setItem("dagboek", JSON.stringify(entries));
 
-    document.getElementById("text").value = "";
+    document.getElementById("invoer").value = "";
     render();
   }
 
