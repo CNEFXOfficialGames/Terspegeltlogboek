@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerSpegelt Log</title>
 
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>🌊 TerSpegelt Log</h1>
+        <p>Zomer 2026</p>
+    </header>
+
+
+    <!-- Filterbalk -->
+    <section id="filterbalk">
+
+        <button>Alle posts</button>
+
+        <select id="dagFilter">
+            <option>Alle dagen</option>
+            <option>Dag 1</option>
+            <option>Dag 2</option>
+            <option>Dag 3</option>
+            <option>Dag 4</option>
+            <option>Dag 5</option>
+            <option>Dag 6</option>
+            <option>Dag 7</option>
+        </select>
+
+        <select id="categorieFilter">
+            <option>Alle categorieën</option>
+            <option>🏊 Zwemmen</option>
+            <option>🎤 Sterrendisco</option>
+            <option>⚽ Sport</option>
+            <option>🍟 Eten</option>
+            <option>🎮 Chill</option>
+            <option>🌙 Avond</option>
+        </select>
+
+    </section>
+
+
+    <!-- Feed -->
+    <main id="feed">
+
+        <!-- Posts komen hier -->
+
+    </main>
+
+
+    <!-- Nieuwe post knop -->
+    <button id="nieuwePostKnop">
+        ➕ Nieuwe post
+    </button>
+
+
+    <!-- Popup -->
+    <section id="postPopup">
+
+        <h2>Nieuwe post</h2>
+
+        <label>Naam</label>
+        <input type="text" id="naam">
+
+        <label>Dag</label>
+        <select id="dag">
+            <option>Dag 1</option>
+            <option>Dag 2</option>
+            <option>Dag 3</option>
+            <option>Dag 4</option>
+            <option>Dag 5</option>
+            <option>Dag 6</option>
+            <option>Dag 7</option>
+        </select>
+
+        <label>Categorie</label>
+        <select id="categorie">
+            <option>🏊 Zwemmen</option>
+            <option>🎤 Sterrendisco</option>
+            <option>⚽ Sport</option>
+            <option>🍟 Eten</option>
+            <option>🎮 Chill</option>
+            <option>🌙 Avond</option>
+        </select>
+
+        <label>Beschrijving</label>
+        <textarea id="beschrijving"></textarea>
+
+        <label>Foto's</label>
+        <input type="file" id="fotos" multiple>
+
+        <button id="plaatsKnop">
+            Plaatsen
+        </button>
+
+        <button id="sluitKnop">
+            Sluiten
+        </button>
+
+    </section>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>
