@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>TerSpegelt Log In</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #00aaff, #0077ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    .box {
+      background: rgba(0,0,0,0.25);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: white;
+      color: #0077ff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .error {
+      margin-top: 10px;
+      color: #ffdddd;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h2>🌊 TerSpegelt Log In</h2>
+    <p>Voer de toegangscode in</p>
+
+    <input type="password" id="wachtwoord" placeholder="Wachtwoord">
+
+    <button onclick="checkLogin()">Inloggen</button>
+
+    <div class="error" id="error"></div>
+  </div>
+
+  <script>
+    function checkLogin() {
+      const input = document.getElementById("wachtwoord").value;
+
+      if (input === "TERS2026") {
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("error").innerText = "❌ Fout wachtwoord";
+      }
+    }
+  </script>
+
+</body>
+</html>
