@@ -6,21 +6,23 @@
     <title>TerSpegelt Log</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- 🔥 IMPORTANT FIX: ensures DOM is ready before JS runs -->
+    <script src="app.js" defer></script>
 </head>
 
 <body>
 
-    <!-- 🌊 Header -->
+    <!-- 🌊 HEADER -->
     <header>
         <h1>🌊 TerSpegelt Log</h1>
         <p>Zomer 2026 — Night Timeline</p>
     </header>
 
-
-    <!-- 🔎 Filterbalk -->
+    <!-- 🔎 FILTER BAR -->
     <section id="filterbalk">
 
-        <button id="allePosts">Alle posts</button>
+        <button id="allePosts" type="button">Alle posts</button>
 
         <select id="dagFilter">
             <option value="all">Alle dagen</option>
@@ -45,30 +47,13 @@
 
     </section>
 
+    <!-- 📅 FEED -->
+    <main id="feed"></main>
 
-    <!-- 📅 TIMELINE FEED -->
-    <main id="feed">
+    <!-- ➕ FLOAT BUTTON -->
+    <button id="nieuwePostKnop" type="button">➕</button>
 
-        <!--
-        JS will generate:
-
-        <div class="day">
-            Day 1 label
-            timeline line
-            posts sorted by time
-        </div>
-        -->
-
-    </main>
-
-
-    <!-- ➕ Floating button -->
-    <button id="nieuwePostKnop">
-        ➕
-    </button>
-
-
-    <!-- 🪟 Popup -->
+    <!-- 🪟 POPUP -->
     <section id="postPopup">
 
         <h2>Nieuwe memory</h2>
@@ -106,13 +91,10 @@
         <label>Foto's</label>
         <input type="file" id="fotos" multiple>
 
-        <button id="plaatsKnop">Plaatsen</button>
-        <button id="sluitKnop">Sluiten</button>
+        <button id="plaatsKnop" type="button">Plaatsen</button>
+        <button id="sluitKnop" type="button">Sluiten</button>
 
     </section>
-
-
-    <script src="app.js"></script>
 
 </body>
 </html>
