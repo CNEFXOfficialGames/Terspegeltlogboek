@@ -23,6 +23,9 @@
     --stroke: rgba(255,255,255,0.12);
 }
 
+/* =========================
+   BODY
+========================= */
 body {
     background: linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
     color: var(--text);
@@ -47,7 +50,7 @@ header h1 {
 }
 
 /* =========================
-   FILTER BAR (FIX MOBILE)
+   FILTER BAR (FIXED FULL)
 ========================= */
 #filterbalk {
     display: flex;
@@ -61,18 +64,31 @@ header h1 {
     border-bottom: 1px solid var(--stroke);
 }
 
+/* buttons + selects */
 #filterbalk button,
 #filterbalk select {
-    background: rgba(255,255,255,0.08);
+    background: rgba(10, 15, 35, 0.6);
     color: var(--text);
     border: 1px solid var(--stroke);
     padding: 10px 12px;
     border-radius: 12px;
     outline: none;
     font-size: 14px;
-
-    /* IMPORTANT: mobile usability */
     min-height: 40px;
+    cursor: pointer;
+}
+
+/* dropdown options (FIX WHITE BUG) */
+#filterbalk select option {
+    background: #0b1b3a;
+    color: white;
+}
+
+/* focus state */
+#filterbalk select:focus,
+#filterbalk button:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
 }
 
 /* =========================
@@ -85,7 +101,7 @@ header h1 {
 }
 
 /* =========================
-   DAY BLOCK
+   DAY BLOCK (TIMELINE)
 ========================= */
 .day {
     margin-bottom: 50px;
@@ -93,7 +109,7 @@ header h1 {
     padding-left: 44px;
 }
 
-/* timeline line */
+/* vertical line */
 .day::before {
     content: "";
     position: absolute;
@@ -132,7 +148,7 @@ header h1 {
     margin-left: 38px;
 }
 
-/* connector */
+/* connector line */
 .post::before {
     content: "";
     position: absolute;
@@ -179,7 +195,7 @@ header h1 {
 .avond { background: #facc15; color: #111; }
 
 /* =========================
-   FLOAT BUTTON (MOBILE SAFE)
+   FLOAT BUTTON
 ========================= */
 #nieuwePostKnop {
     position: fixed;
@@ -240,7 +256,7 @@ header h1 {
     font-size: 14px;
 }
 
-/* buttons */
+/* popup buttons */
 #postPopup button {
     padding: 10px 12px;
     border: none;
@@ -261,9 +277,10 @@ header h1 {
 }
 
 /* =========================
-   MOBILE FIXES (IMPORTANT)
+   MOBILE FIXES
 ========================= */
 @media (max-width: 600px) {
+
     header h1 {
         font-size: 18px;
     }
