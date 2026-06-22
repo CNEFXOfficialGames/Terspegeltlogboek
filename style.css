@@ -1,1 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
+body {
+    background: linear-gradient(180deg, #050b1a, #0b1b3a, #120a2a);
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* 🌌 Header */
+header {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(90deg, #0b1b3a, #1a0f3d);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+header h1 {
+    font-size: 24px;
+    color: #7dd3fc;
+    text-shadow: 0 0 10px rgba(125, 211, 252, 0.4);
+}
+
+/* 🔎 Filter bar */
+#filterbalk {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#filterbalk button,
+#filterbalk select {
+    background: rgba(255,255,255,0.08);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 10px;
+    border-radius: 10px;
+    outline: none;
+}
+
+/* 📜 Feed */
+#feed {
+    padding: 15px;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* 🧱 Post card */
+.post {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* 👤 name + meta */
+.post .naam {
+    font-weight: bold;
+    color: #7dd3fc;
+}
+
+.post .tijd {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* 🏷️ category tags */
+.tag {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+/* category colors */
+.zwemmen { background: #06b6d4; }
+.sterrendisco { background: #a855f7; }
+.sport { background: #22c55e; }
+.eten { background: #f97316; }
+.chill { background: #60a5fa; }
+.avond { background: #facc15; }
+
+/* ➕ floating button */
+#nieuwePostKnop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: radial-gradient(circle, #38bdf8, #2563eb);
+    color: white;
+    border: none;
+    padding: 18px 20px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+}
+
+/* 🪟 popup */
+#postPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 15, 35, 0.9);
+    backdrop-filter: blur(15px);
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: none;
+}
+
+#postPopup input,
+#postPopup select,
+#postPopup textarea {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    outline: none;
+}
+
+#postPopup button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+#plaatsKnop {
+    background: #2563eb;
+    color: white;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+}
+
+#sluitKnop {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
