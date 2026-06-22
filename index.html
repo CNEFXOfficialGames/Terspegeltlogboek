@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>TerSpegelt Log In</title>
+  <title>TerSpegelt Login</title>
 
   <style>
     body {
@@ -21,7 +21,7 @@
       padding: 30px;
       border-radius: 12px;
       text-align: center;
-      width: 300px;
+      width: 320px;
     }
 
     input {
@@ -45,10 +45,29 @@
       cursor: pointer;
     }
 
-    .error {
-      margin-top: 10px;
-      color: #ffdddd;
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
       font-size: 14px;
+    }
+
+    .errorBox {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff4d4d;
+      padding: 12px 15px;
+      border-radius: 8px;
+      color: white;
+      display: none;
+    }
+
+    .lockBox {
+      margin-top: 10px;
+      color: yellow;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -56,26 +75,91 @@
 <body>
 
   <div class="box">
-    <h2>🌊 TerSpegelt Log In</h2>
+    <h2>🌊 TerSpegelt Login</h2>
     <p>Voer de toegangscode in</p>
 
     <input type="password" id="wachtwoord" placeholder="Wachtwoord">
 
+    <div class="row">
+      <label>
+        <input type="checkbox" onclick="togglePassword()"> Toon wachtwoord
+      </label>
+    </div>
+
     <button onclick="checkLogin()">Inloggen</button>
 
-    <div class="error" id="error"></div>
+    <div class="lockBox" id="lockBox"></div>
   </div>
 
-  <script>
-    function checkLogin() {
-      const input = document.getElementById("wachtwoord").value;
+  <div class="errorBox" id="errorBox"></div>
 
-      if (input === "TERSPEGELT26") {
-        window.location.href = "home.html";
+  <script>
+    const PASSWORD = "TERSPEGELT26";
+
+    let attempts = parseInt(localStorage.getItem("attempts") || "0");
+    let lockTime = parseInt(localStorage.getItem("lockTime") || "0");
+
+    function updateLockUI() {
+      const now = Date.now();
+      const lockBox = document.getElementById("lockBox");
+
+      if (lockTime > now) {
+        const secondsLeft = Math.ceil((lockTime - now) / 1000);
+        lockBox.innerText = `⛔ Te veel pogingen. Wacht ${secondsLeft}s`;
       } else {
-        document.getElementById("error").innerText = "❌ Fout wachtwoord";
+        lockBox.innerText = "";
       }
     }
+
+    function showError(msg) {
+      const box = document.getElementById("errorBox");
+      box.innerText = msg;
+      box.style.display = "block";
+
+      setTimeout(() => {
+        box.style.display = "none";
+      }, 2000);
+    }
+
+    function checkLogin() {
+      const now = Date.now();
+
+      if (lockTime > now) {
+        showError("⛔ Geblokkeerd. Wacht even.");
+        return;
+      }
+
+      const input = document.getElementById("wachtwoord").value;
+
+      if (input === PASSWORD) {
+        localStorage.setItem("attempts", "0");
+        window.location.href = "home.html";
+      } else {
+        attempts++;
+        localStorage.setItem("attempts", attempts);
+
+        showError("❌ Fout wachtwoord");
+
+        if (attempts >= 5) {
+          lockTime = Date.now() + 5 * 60 * 1000; // 5 min
+          localStorage.setItem("lockTime", lockTime);
+          localStorage.setItem("attempts", "0");
+        }
+      }
+    }
+
+    function togglePassword() {
+      const input = document.getElementById("wachtwoord");
+
+      if (input.type === "password") {
+        input.type = "text";
+      } else {
+        input.type = "password";
+      }
+    }
+
+    setInterval(updateLockUI, 1000);
+    updateLockUI();
   </script>
 
 </body>
