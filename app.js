@@ -2,7 +2,19 @@ console.log("🌙 TerSpegelt App gestart");
 
 // 🌍 Firebase
 const db = window.db;
-const { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } = window.firebaseModules;
+const storage = window.storage; // 🔥 ADD THIS
+
+const { 
+    collection, 
+    addDoc, 
+    getDocs, 
+    doc, 
+    deleteDoc, 
+    updateDoc,
+    ref,
+    uploadBytes,
+    getDownloadURL
+} = window.firebaseModules;
 
 // 📅 UI
 const feed = document.getElementById("feed");
@@ -21,7 +33,7 @@ closeBtn.addEventListener("click", () => {
     popup.style.display = "none";
 });
 
-// ➕ CREATE POST (FIREBASE)
+// ➕ CREATE POST (FIREBASE + IMAGE)
 placeBtn.addEventListener("click", async () => {
 
     const naam = document.getElementById("naam").value;
@@ -29,6 +41,7 @@ placeBtn.addEventListener("click", async () => {
     const tijd = document.getElementById("tijd").value;
     const categorie = document.getElementById("categorie").value;
     const beschrijving = document.getElementById("beschrijving").value;
+    const fileInput = document.getElementById("fotos");
 
     if (!naam || !dag || !tijd || !beschrijving) {
         alert("Vul alles in!");
@@ -36,12 +49,28 @@ placeBtn.addEventListener("click", async () => {
     }
 
     try {
+
+        let imageUrl = "";
+
+        // 📸 UPLOAD IMAGE IF EXISTS
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+
+            const imageRef = ref(storage, "posts/" + Date.now() + "_" + file.name);
+
+            const snapshot = await uploadBytes(imageRef, file);
+
+            imageUrl = await getDownloadURL(snapshot.ref);
+        }
+
+        // 💾 SAVE POST
         await addDoc(collection(db, "posts"), {
             naam,
             dag,
             tijd,
             categorie,
             beschrijving,
+            imageUrl,
             createdAt: Date.now()
         });
 
@@ -50,8 +79,10 @@ placeBtn.addEventListener("click", async () => {
         document.getElementById("naam").value = "";
         document.getElementById("tijd").value = "";
         document.getElementById("beschrijving").value = "";
+        fileInput.value = "";
 
         loadPosts();
+
     } catch (e) {
         console.error("Fout bij opslaan:", e);
     }
@@ -98,7 +129,6 @@ async function loadPosts() {
         });
     });
 
-    // 📅 group by day
     let days = {};
 
     posts.forEach(post => {
@@ -108,7 +138,6 @@ async function loadPosts() {
         days[post.dag].push(post);
     });
 
-    // 📜 render days
     Object.keys(days)
         .sort((a, b) => a - b)
         .forEach(day => {
@@ -121,7 +150,6 @@ async function loadPosts() {
 
             dayDiv.appendChild(title);
 
-            // ⏰ sort by time
             days[day]
                 .sort((a, b) => timeToNumber(a.tijd) - timeToNumber(b.tijd))
                 .forEach(post => {
@@ -138,6 +166,10 @@ async function loadPosts() {
                         </div>
 
                         <p>${post.beschrijving}</p>
+
+                        ${post.imageUrl ? `
+                            <img src="${post.imageUrl}" style="width:100%; border-radius:12px; margin-top:10px;">
+                        ` : ""}
 
                         <button onclick="editPost('${post.id}', \`${post.beschrijving}\`)">✏️</button>
                         <button onclick="deletePost('${post.id}')">🗑️</button>
